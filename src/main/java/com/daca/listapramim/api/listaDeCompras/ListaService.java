@@ -3,9 +3,12 @@ package com.daca.listapramim.api.listaDeCompras;
 import com.daca.listapramim.api.compra.Compra;
 import com.daca.listapramim.api.compra.CompraService;
 import com.daca.listapramim.api.item.Item;
+import com.daca.listapramim.api.listaDeCompras.listaExceptions.ListaDeCompraNotFoundException;
+import com.daca.listapramim.api.listaDeCompras.listaExceptions.ListaDeComprasDuplicateException;
 import com.daca.listapramim.api.precos.MapaDePreco;
 import com.daca.listapramim.api.utils.GenericService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +32,8 @@ public class ListaService extends GenericService<Long, ListaDeCompra, ListaRepos
     public void create(ListaDeCompra listaDeCompra) {
         try {
             this.listaRepository.save(listaDeCompra);
-        }catch (ConstraintViolationException e){
-            throw new RuntimeException("Lista já existente"+ e.getMessage());
+        }catch (DataIntegrityViolationException e){
+            throw new ListaDeComprasDuplicateException();
         }
     }
 
@@ -38,7 +41,7 @@ public class ListaService extends GenericService<Long, ListaDeCompra, ListaRepos
     @ReadOnlyProperty
     public ListaDeCompra show(Long id){
         if(!this.listaRepository.existsById(id)){
-            throw new RuntimeException("ID não relacionado a nenhuma lista");
+            throw new ListaDeCompraNotFoundException(id);
         }
         try{
             ListaDeCompra lista = this.listaRepository.findById(id).orElseThrow(RuntimeException::new);
@@ -50,7 +53,7 @@ public class ListaService extends GenericService<Long, ListaDeCompra, ListaRepos
 
     public ListaDeCompra update(Long id, ListaDeCompra lista){
         if(!this.listaRepository.existsById(id)){
-            throw new RuntimeException("ID não relacionado a nenhuma lista");
+            throw new ListaDeCompraNotFoundException(id);
         }
         lista.setId(id);
         return this.listaRepository.save(lista);
@@ -58,7 +61,7 @@ public class ListaService extends GenericService<Long, ListaDeCompra, ListaRepos
 
     public void delete(Long id){
         if(!this.listaRepository.existsById(id)){
-            throw new RuntimeException("ID não relacionado a nenhuma lista");
+            throw new ListaDeCompraNotFoundException(id);
         }
         this.listaRepository.deleteById(id);
     }

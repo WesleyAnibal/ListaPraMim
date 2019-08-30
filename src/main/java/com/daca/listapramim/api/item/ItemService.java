@@ -3,8 +3,11 @@ package com.daca.listapramim.api.item;
 import com.daca.listapramim.api.item.Categoria;
 import com.daca.listapramim.api.item.Item;
 import com.daca.listapramim.api.item.ItemRepository;
+import com.daca.listapramim.api.item.itemExceptions.ItemDuplicateException;
+import com.daca.listapramim.api.item.itemExceptions.ItemNotFoundException;
 import com.daca.listapramim.api.utils.GenericService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -49,15 +52,15 @@ public class ItemService extends GenericService<Long, Item, ItemRepository> {
 	public void create(Item item) {
 		try {
 			this.itemRepository.save(item);
-		}catch (ConstraintViolationException e){
-			throw new RuntimeException("Item já existente"+ e.getMessage());
+		}catch (DataIntegrityViolationException e){
+			throw new ItemDuplicateException();
 		}
 	}
 
 	@ReadOnlyProperty
 	public Item show(Long id){
 		if(!this.itemRepository.existsById(id)){
-			throw new RuntimeException("ID não relacionado a nenhum item");
+			throw new ItemNotFoundException(id);
 		}
 		try{
 			Item item = this.itemRepository.findById(id).orElseThrow(RuntimeException::new);
@@ -69,7 +72,7 @@ public class ItemService extends GenericService<Long, Item, ItemRepository> {
 
 	public Item update(Long id, Item item){
 		if(!this.itemRepository.existsById(id)){
-			throw new RuntimeException("ID não relacionado a nenhum item");
+            throw new ItemNotFoundException(id);
 		}
 		item.setId(id);
 		return this.itemRepository.save(item);
@@ -77,7 +80,7 @@ public class ItemService extends GenericService<Long, Item, ItemRepository> {
 
 	public void delete(Long id){
 		if(!this.itemRepository.existsById(id)){
-			throw new RuntimeException("ID não relacionado a nenhum item");
+            throw new ItemNotFoundException(id);
 		}
 		this.itemRepository.deleteById(id);
 	}
