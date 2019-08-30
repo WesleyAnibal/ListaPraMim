@@ -3,6 +3,7 @@ package com.daca.listapramim.api.item;
 import com.daca.listapramim.api.item.DTO.ItemIO;
 import com.daca.listapramim.api.item.DTO.ItemInput;
 import com.daca.listapramim.api.item.DTO.ItemOutput;
+import com.daca.listapramim.api.item.itemExceptions.ItemDuplicateException;
 import com.daca.listapramim.api.precos.DTO.PrecoIO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -10,6 +11,7 @@ import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,9 +46,14 @@ public class ItemController {
     public ResponseEntity create(@Valid @RequestBody ItemInput itemInput){
         LOGGER.info("Criando Item");
         Item item = this.itemIO.mapTo(itemInput);
-        this.itemService.create(item);
-        LOGGER.info("Item criado");
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        try {
+            this.itemService.create(item);
+            LOGGER.info("Item criado");
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        }catch (DataIntegrityViolationException e){
+            throw new ItemDuplicateException();
+        }
+
 
     }
 
