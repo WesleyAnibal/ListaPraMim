@@ -1,10 +1,12 @@
 package com.daca.listapramim.api.config;
 
+import com.daca.listapramim.api.security.JWTLoginFilter;
 import com.daca.listapramim.api.security.SecurityFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -37,6 +39,15 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/swagger-ui.html/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
+                .addFilterBefore(new JWTLoginFilter("/Login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
+    }
+
+    @Override
+    protected  void configure(AuthenticationManagerBuilder auth) throws  Exception{
+        auth.inMemoryAuthentication()
+                .withUser("admin")
+                .password("password")
+                .roles("ADMIN");
     }
 }

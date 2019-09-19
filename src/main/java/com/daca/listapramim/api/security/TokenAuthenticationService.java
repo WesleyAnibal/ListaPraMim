@@ -4,6 +4,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +12,8 @@ import java.util.Base64;
 import java.util.Collections;
 import java.util.Date;
 
+
+@Service
 public class TokenAuthenticationService {
 
     public static final long EXPIRATION_TIME = 21_600_000L;
@@ -42,5 +45,6 @@ public class TokenAuthenticationService {
                 .compact();
 
         response.addHeader(HEADER, TOKEN_PREFIX+ " "+JWT);
+
     }
 }

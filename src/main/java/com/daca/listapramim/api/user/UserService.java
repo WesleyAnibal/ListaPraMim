@@ -26,4 +26,13 @@ public class UserService extends GenericService<Long, UserModel, UserRepository>
         this.tokenAuthenticationService = tokenAuthenticationService;
     }
 
+    public UserModel login(String login, String credentials){
+        UserModel user = repository.findByEmail(login);
+        if(user != null && cryptoUtil.matches(credentials, user.getPassword())){
+            user.setPassword(null);
+            return user;
+        }
+        return null;
+    }
+
 }

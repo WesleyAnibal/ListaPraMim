@@ -14,11 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Component
-public class SecurityFilter extends GenericFilterBean {
+public class  SecurityFilter extends GenericFilterBean {
 
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+
         Authentication authentication = TokenAuthenticationService
                 .getAuthentication((HttpServletRequest) request);
 
