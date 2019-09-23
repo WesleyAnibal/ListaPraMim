@@ -1,5 +1,6 @@
 package com.daca.listapramim.api.security;
 
+import com.daca.listapramim.api.user.UserModel;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +21,8 @@ public class TokenAuthenticationService {
     private static String SECRET = "raj9s0e9c0r9e0t";
     private static String SECRET_KEY = Base64.getEncoder().encodeToString(SECRET.getBytes());
     private static final String TOKEN_PREFIX = "Bearer";
-    private static final String HEADER = "Authorization";
+    public static final String HEADER = "Authorization";
+
 
     static Authentication getAuthentication(HttpServletRequest request){
         String token = request.getHeader(HEADER);
@@ -46,5 +48,13 @@ public class TokenAuthenticationService {
 
         response.addHeader(HEADER, TOKEN_PREFIX+ " "+JWT);
 
+    }
+
+    public final String generateToken(final UserModel user){
+        return Jwts.builder()
+                .setSubject(user.getEmail())
+                .setExpiration(new Date(System.currentTimeMillis()+ EXPIRATION_TIME))
+                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
+                .compact();
     }
 }

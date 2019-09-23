@@ -4,6 +4,7 @@ import com.daca.listapramim.api.security.SecurityFilter;
 import com.daca.listapramim.api.security.TokenAuthenticationService;
 import com.daca.listapramim.api.utils.CryptoUtil;
 import com.daca.listapramim.api.utils.GenericService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,15 @@ public class UserService extends GenericService<Long, UserModel, UserRepository>
             return user;
         }
         return null;
+    }
+
+
+    public String generateToken(UserModel user){
+        return tokenAuthenticationService.generateToken(user);
+    }
+
+    public void logout(String token) {
+//		blackListService.blockToken(token);
     }
 
 }
