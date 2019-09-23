@@ -2,6 +2,7 @@ package com.daca.listapramim.api.config;
 
 import com.daca.listapramim.api.user.UserModel;
 import com.daca.listapramim.api.user.UserRepository;
+import com.daca.listapramim.api.utils.CryptoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -16,10 +17,13 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     private UserRepository userRepository;
 
     @Autowired
+    private CryptoUtil cryptoUtil;
+    @Autowired
     public InitialDataLoader(
-            UserRepository userRepository) {
+            UserRepository userRepository ) {
         this.userRepository = userRepository;
         this.alreadySetup = false;
+
     }
 
     @Override
@@ -41,6 +45,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     private UserModel createUserIfNotFound(final UserModel userModel) {
         UserModel savedUser = userRepository.findByEmail(userModel.getEmail());
         if (savedUser == null) {
+            userModel.setPassword(cryptoUtil.hashPassword(userModel.getPassword()));
+            /*TODO criar o listener de user depois*/
             savedUser = userRepository.save(userModel);
         }
         return savedUser;
