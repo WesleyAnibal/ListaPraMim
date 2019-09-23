@@ -6,6 +6,7 @@ import com.daca.listapramim.api.utils.CryptoUtil;
 import com.daca.listapramim.api.utils.GenericService;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -41,8 +42,8 @@ public class UserService extends GenericService<Long, UserModel, UserRepository>
         return tokenAuthenticationService.generateToken(user);
     }
 
-    public void logout(String token) {
-//		blackListService.blockToken(token);
+    public void logout() {
+        SecurityContextHolder.getContext().setAuthentication(null);
     }
 
 }

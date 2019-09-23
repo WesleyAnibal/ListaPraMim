@@ -50,13 +50,15 @@ public class UserController {
         
     }
 
-    @PostMapping({"/logout/", "/logout"})
+    /*@PostMapping({"/logout/", "/logout"})
     @ApiOperation(value = "Logout an User by token")
     public ResponseEntity<?> logoutUser(
             @RequestHeader(value = TokenAuthenticationService.HEADER) String token) {
         LOGGER.info("trying logout user");
-        userService.logout(token);
+        userService.logout();
+        HttpHeaders headers = new HttpHeaders();
+        headers.clear();
         LOGGER.info("logout");
         return ResponseEntity.noContent().build();
-    }
+    }*/
 }
