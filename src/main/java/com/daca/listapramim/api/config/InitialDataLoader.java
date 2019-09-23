@@ -45,7 +45,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     private UserModel createUserIfNotFound(final UserModel userModel) {
         UserModel savedUser = userRepository.findByEmail(userModel.getEmail());
         if (savedUser == null) {
-            userModel.setPassword(cryptoUtil.hashPassword(userModel.getPassword()));
+            //userModel.setPassword(cryptoUtil.hashPassword(userModel.getPassword()));
             /*TODO criar o listener de user depois*/
             savedUser = userRepository.save(userModel);
         }

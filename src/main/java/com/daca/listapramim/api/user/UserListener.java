@@ -13,11 +13,11 @@ public class UserListener {
 
     @PrePersist
     public void methodExecuteBeforeCreate(final UserModel user) {
-
+        user.setPassword(cryptoUtil.hashPassword(user.getPassword()));
     }
 
     @PreUpdate
     public void methodExecuteBeforeUpdate(final UserModel user) {
-
+        user.setPassword(cryptoUtil.hashPassword(user.getPassword()));
     }
 }
