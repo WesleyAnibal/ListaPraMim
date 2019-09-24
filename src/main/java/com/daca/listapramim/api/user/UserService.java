@@ -2,6 +2,7 @@ package com.daca.listapramim.api.user;
 
 import com.daca.listapramim.api.security.SecurityFilter;
 import com.daca.listapramim.api.security.TokenAuthenticationService;
+import com.daca.listapramim.api.user.Exceptions.LoginException;
 import com.daca.listapramim.api.utils.CryptoUtil;
 import com.daca.listapramim.api.utils.GenericService;
 import org.apache.catalina.User;
@@ -34,7 +35,7 @@ public class UserService extends GenericService<Long, UserModel, UserRepository>
             user.setPassword(null);
             return user;
         }
-        return null;
+        throw new LoginException();
     }
 
 

@@ -40,14 +40,19 @@ public class UserController {
         if(user == null){
             return ResponseEntity.notFound().build();
         }
-        LOGGER.info("user logado");
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("authotization", userService.generateToken(user));
+        HttpHeaders headers = getHttpHeaders(user);
         UserOutput saida = new UserOutput();
         saida.setNome(user.getNome());
         saida.setEmail(user.getEmail());
         return ResponseEntity.ok().headers(headers).body(saida);
         
+    }
+
+    private HttpHeaders getHttpHeaders(UserModel user) {
+        LOGGER.info("user logado");
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("authotization", userService.generateToken(user));
+        return headers;
     }
 
     /*@PostMapping({"/logout/", "/logout"})
