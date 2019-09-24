@@ -33,10 +33,10 @@ O Lista pra mim©, é um app que vai revolucionar a forma como você faz compras
    - Acesse, pelo seu navegador: 
       http://localhost:8080/swagger-ui.html#/
    - Login: Todas as rotas estão bloqueadas, só podendo ter acesso após autenticação, usando JWT.
-            -> Para autenticação:
-                  1 - acesse a rota /api/user/login com um Json contendo o Password e o Username.
-                  2 - A credenciais estando corretas, acesse o Response headers, e copie o token, contido em "authotization:".
-                  3 - Esse token será o responsável por todo acesso a API.
+            ##### Para autenticação:
+                  1) acesse a rota /api/user/login com um Json contendo o Password e o Username.
+                  2) A credenciais estando corretas, acesse o Response headers, e copie o token, contido em "authotization:".
+                  3) Esse token será o responsável por todo acesso a API.
                      3.1 - O token terá validade durante 6 horas.
-                  4 - Adicione esse token ao Authorize da sua aplicação segundo o seguinte padrão:
+                  4) Adicione esse token ao Authorize da sua aplicação segundo o seguinte padrão:
                      Bearer <Token>
