@@ -34,10 +34,10 @@ O Lista pra mim©, é um app que vai revolucionar a forma como você faz compras
       http://localhost:8080/swagger-ui.html#/
    - Login: Todas as rotas estão bloqueadas, só podendo ter acesso após autenticação, usando JWT.
    ##### Estratégia de Autenticação:
-   A autenticação foi baseada em JWT, se forma que a cada requisição é preciso um token válido para se ter acesso, todas os endpoints estão bloqueados, somente o de login aberto.
+   A autenticação foi baseada em JWT, de forma que a cada requisição é preciso um token válido para se ter acesso. Todos os endpoints estão bloqueados, somente o de login aberto.
   
-  Toda a segurança do sistema foi feita usando-se Spring Security, de forma com que pra todas as requisições, 
-foi criada um interceptador, onde verifica o token e o usuário que está usando a API. Inicialmente temos somente um usuário cadastrado no sistema, criado diretamente no BD, criado no InitialData, usando-se da JPA para isso. Todas as senhas antes de irem para o BD, são criptografadas, usando a biblioteca Bcrypt, e só depois de criptografada, a senha é salva no BD, pra isso foi usado uma classe de Listener para o usuário, para que antes da criação do usuário ou edição da senha do usuário, a senha seja sempre criptografada, antes de chegar ao BD.
+  Toda a segurança do sistema foi feita usando-se Spring Security, para todas as requisições, 
+foi criada um interceptador, onde verifica o token e o usuário que está usando a API. Inicialmente temos somente um usuário cadastrado no sistema, criado diretamente no BD, criado no InitialData, usando-se da JPA para isso. Todas as senhas antes de irem para o BD, são criptografadas, usando a biblioteca Bcrypt, e só depois de criptografada, a senha é salva no BD, pra isso foi usado uma classe Listener para o usuário, para que antes da criação do usuário ou edição da senha do usuário, a senha seja sempre criptografada, antes de chegar ao BD.
    ##### Para autenticação:
          1) acesse a rota /api/user/login com um Json contendo o Password e o Username.
          2) A credenciais estando corretas, acesse o Response headers, e copie o token, contido em "authotization:".
