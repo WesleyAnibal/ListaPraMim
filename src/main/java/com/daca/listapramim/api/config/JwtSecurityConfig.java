@@ -30,7 +30,7 @@ public class    JwtSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST,"/api/login").permitAll()
+                .antMatchers(HttpMethod.POST,"/api/user/login").permitAll()
                 .antMatchers(HttpMethod.GET, "/v2/api-docs").permitAll()
                 .antMatchers(HttpMethod.GET, "/configuration/ui/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/swagger-resources/**").permitAll()
@@ -39,7 +39,6 @@ public class    JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/swagger-ui.html/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new JWTLoginFilter("/Login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
     }
 

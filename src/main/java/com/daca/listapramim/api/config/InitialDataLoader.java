@@ -29,12 +29,6 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        if (alreadySetup) {
-            return;
-        }
-
-
-
         // User Admin
         UserModel user = new UserModel("Administrador","administrador@email.com", "teste");
         user = createUserIfNotFound(user);
