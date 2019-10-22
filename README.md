@@ -48,7 +48,8 @@ foi criada um interceptador, onde verifica o token e o usuário que está usando
             
    ##### Autorização
       Além da autenticação, cada usuário possui uma lista de permissões, 
-      onde cada permissão é referente a um módulo do sistema, as permissões são: IT(Item), LC(Lista de compras), US(usuário)       e PR(Preço).
+      onde cada permissão é referente a um módulo do sistema, as permissões 
+      são: IT(Item), LC(Lista de compras), US(usuário) e PR(Preço).
       
 ### Otimização via sistema de Cache
    O sistema oferece sistema de cache, usando a ferramenta Redis, para otimizar todas requisições a API.
