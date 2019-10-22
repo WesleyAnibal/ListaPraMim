@@ -16,9 +16,11 @@ import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -37,6 +39,15 @@ public class UserController {
     private UserIO userIO;
 
     @Autowired
+    private CacheManager cacheManager;      // autowire cache manager
+    // clear all cache using cache manager
+    public void clearCache(){
+        for(String name:cacheManager.getCacheNames()){
+            cacheManager.getCache(name).clear();            // clear cache by name
+        }
+    }
+
+    @Autowired
     public UserController(UserService userService, UserIO userIO) {
         this.userService = userService;
         this.userIO = userIO;
@@ -46,7 +57,7 @@ public class UserController {
     @ApiOperation(value ="Login an user")
     public ResponseEntity login(@RequestBody @Valid AccountCredentials accountCredentials){
         LOGGER.info("tentando logar o usuário com email "+ accountCredentials.getUsername());
-
+        this.clearCache();
         UserModel user = userService.login(accountCredentials.getUsername(), accountCredentials.getPassword());
         if(user == null){
             return ResponseEntity.notFound().build();
@@ -64,6 +75,7 @@ public class UserController {
     }
 
 
+    @PreAuthorize("hasAuthority('" + "US" + "')")
     @PostMapping({"/",""})
     @ApiOperation(value = "Create User")
     public ResponseEntity create(@Valid @RequestBody UserInput userInput){

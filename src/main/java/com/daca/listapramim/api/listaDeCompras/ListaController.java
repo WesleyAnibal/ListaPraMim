@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -44,6 +45,7 @@ public class ListaController {
     @Autowired
     private CompraIO compraIO;
 
+    @PreAuthorize("hasAuthority('" + "LC" + "')")
     @PostMapping({"/", ""})
     @ApiOperation(value = "Create Lista De Compras")
     public ResponseEntity create( @Valid @RequestBody EstrategiaInput input) {
@@ -60,6 +62,7 @@ public class ListaController {
         }
     }
 
+    @PreAuthorize("hasAuthority('" + "LC" + "')")
     @GetMapping({"/{id}/", "/{id}"})
     @ApiOperation(value = "Get A Listas De Compras")
     public ListaOutput show(@Min(value = 1) @PathVariable("id") Long id) {
@@ -68,6 +71,7 @@ public class ListaController {
             return this.listaIO.mapTo(lista);
     }
 
+    @PreAuthorize("hasAuthority('" + "LC" + "')")
     @GetMapping({"/", ""})
     @ApiOperation(value = "Get All Listas De Compras")
     public List<ListaOutput> index(@RequestParam(required = false) String descricao) {
@@ -84,6 +88,7 @@ public class ListaController {
         return this.listaIO.toList(listas, type);
     }
 
+    @PreAuthorize("hasAuthority('" + "LC" + "')")
     @ApiOperation(value = "Update Lista De Compras")
     @PutMapping({"/{id}/", "/{id}"})
     public ResponseEntity<?> update(@Min(value = 1) @PathVariable("id") Long id,
@@ -96,7 +101,7 @@ public class ListaController {
         return ResponseEntity.noContent().build();
     }
 
-
+    @PreAuthorize("hasAuthority('" + "LC" + "')")
     @ApiOperation(value = "Delete Lista De Compras")
     @DeleteMapping({"/{id}/", "/{id}"})
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
@@ -124,6 +129,7 @@ public class ListaController {
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasAuthority('" + "LC" + "')")
     @GetMapping({"/sugestao/{id}/", "/sugestao/{id}"})
     @ApiOperation(value = "Get Total Prices in all Establishments")
     public List<CarrinhoOutput> melhorEstabelecimento(@PathVariable("id") Long id){

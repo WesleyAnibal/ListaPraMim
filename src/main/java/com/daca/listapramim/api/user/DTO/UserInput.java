@@ -1,9 +1,11 @@
 package com.daca.listapramim.api.user.DTO;
 
+import com.daca.listapramim.api.precos.DTO.PrecoOutput;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 @ApiModel(value = "userInput")
 public class UserInput {
@@ -20,6 +22,9 @@ public class UserInput {
     @ApiModelProperty(example = "1234", required = true)
     @NotEmpty
     private String password;
+
+    @ApiModelProperty(example = "[US]", required = true)
+    private List<String> permissao;
 
     public UserInput() {
     }
@@ -38,6 +43,14 @@ public class UserInput {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<String> getPermissao() {
+        return permissao;
+    }
+
+    public void setPermissao(List<String> permissao) {
+        this.permissao = permissao;
     }
 
     public String getPassword() {

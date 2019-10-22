@@ -5,6 +5,7 @@ import javax.validation.constraints.NotEmpty;
 
 import com.daca.listapramim.api.compra.Compra;
 import com.daca.listapramim.api.precos.MapaDePreco;
+import com.daca.listapramim.api.user.UserModel;
 import com.daca.listapramim.api.utils.Model;
 
 import java.io.Serializable;
@@ -38,6 +39,12 @@ public abstract class Item implements Serializable, Model<Long>{
     @JoinColumn(name = "item_id")
     private List<Compra> compras;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "userModel_id", nullable = false)
+	private UserModel userModel;
+
+
+
 	public Item(String nome, Categoria categoria) {
 		this.nome = nome;
 		this.categoria = categoria;
@@ -46,6 +53,14 @@ public abstract class Item implements Serializable, Model<Long>{
     public Item(Long id){
 	    this.id = id;
     }
+
+	public UserModel getUserModel() {
+		return userModel;
+	}
+
+	public void setUserModel(UserModel userModel) {
+		this.userModel = userModel;
+	}
 
 	public Item() {
 	}

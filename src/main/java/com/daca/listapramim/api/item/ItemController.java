@@ -11,9 +11,13 @@ import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -41,10 +45,12 @@ public class ItemController {
         this.precoIO = precoIO;
     }
 
+    @PreAuthorize("hasAuthority('" + "IT" + "')")
     @PostMapping({"/",""})
+    @CacheEvict(cacheNames = "Item", allEntries = true)
     @ApiOperation(value = "Create Item")
     public ResponseEntity create(@Valid @RequestBody ItemInput itemInput){
-        LOGGER.info("Criando Item");
+            LOGGER.info("Criando Item");
         Item item = this.itemIO.mapTo(itemInput);
         try {
             this.itemService.create(item);
@@ -57,8 +63,10 @@ public class ItemController {
 
     }
 
+    @PreAuthorize("hasAuthority('" + "IT" + "')")
     @ApiOperation(value =  "Get a Item")
     @GetMapping({"/{id}/", "/{id}"})
+    @Cacheable(cacheNames = "Item", key="#id")
     public ItemOutput show(@PathVariable("id") Long id){
         LOGGER.info("Show item by id " +id);
         Item item = this.itemService.show(id);
@@ -66,6 +74,8 @@ public class ItemController {
         return output;
     }
 
+    @PreAuthorize("hasAuthority('" + "IT" + "')")
+    @Cacheable(cacheNames = "Item", key="#root.method.name")
     @ApiOperation(value =  "Get all Item")
     @GetMapping({"/", ""})
     public List<ItemOutput> index(@RequestParam(required = false) String categoria, @RequestParam(required = false) String nome){
@@ -84,7 +94,9 @@ public class ItemController {
         return this.itemIO.toList(this.itemService.indexByOrderName(), type);
     }
 
+    @PreAuthorize("hasAuthority('" + "IT" + "')")
     @ApiOperation(value = "Update Item")
+    @CachePut(cacheNames = "Item", key="#item.getId()")
     @PutMapping({"/{id}/","/{id}"})
     public ResponseEntity<?> update(@Min(value = 1) @PathVariable("id") Long id,
                                     @Valid @RequestBody ItemInput itemInput){
@@ -95,7 +107,9 @@ public class ItemController {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAuthority('" + "IT" + "')")
     @ApiOperation(value = "Delete Item")
+    @CacheEvict(cacheNames = "Item", key="#id")
     @DeleteMapping({"/{id}/","/{id}"})
     public ResponseEntity<?> delete(@PathVariable("id") Long id){
         LOGGER.info("Excluindo Item com id "+id);

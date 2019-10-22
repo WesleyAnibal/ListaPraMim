@@ -40,7 +40,8 @@ public class UserService extends GenericService<Long, UserModel, UserRepository>
 
 
     public String generateToken(UserModel user){
-        return tokenAuthenticationService.generateToken(user);
+        Payload payload = new Payload(user.getEmail(), user.getPrivileges(), user.getId());
+        return tokenAuthenticationService.generateToken(payload);
     }
 
     public void logout() {
