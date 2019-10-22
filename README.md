@@ -45,3 +45,18 @@ foi criada um interceptador, onde verifica o token e o usuário que está usando
             3.1 - O token terá validade durante 6 horas.
          4) Adicione esse token ao Authorize da sua aplicação segundo o seguinte padrão:
             Bearer <Token>
+            
+   ##### Autorização
+      Além da autenticação, cada usuário possui uma lista de permissões, onde cada permissão é referente a um módulo do sistema, as permissões são: IT(Item), LC(Lista de compras), US(usuário) e PR(Preço).
+      
+### Otimização via sistema de Cache
+   O sistema oferece sistema de cache, usando a ferramenta Redis, para otimizar todas requisições a API.
+   ##### Para usar é necessário algumas configurações:
+           1) Ter o Redis instalado no PC.
+           2) Configurar o Redis usando a porta 6379.
+           3) Abra o pasta onde está localizado o Redis, no terminal.
+           4) Dentro da pasta digite sudo nano redis.conf.
+           5) pesquise por: #requirepass foobared e retire a cerquilha(Jogo da velha).
+           6) Coloque "password" no lugar de "foobared".(sem aspas)
+           7) Rode o Redis, usando sudo redis-server. 
+    
