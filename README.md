@@ -62,5 +62,5 @@ foi criada um interceptador, onde verifica o token e o usuário que está usando
            6) Coloque "password" no lugar de "foobared".(sem aspas)
            7) Rode o Redis, usando sudo redis-server. 
    #### Testes de desempenho:
-            Todos os testes foram feitos usados a ferramenta JMeter, e você poderá encontrar os resultados em:
-            https://medium.com/@weleyanibal/teste-de-desempenho-do-lista-pra-mim-fa3de28b4e10
+   -Todos os testes foram feitos usados a ferramenta JMeter, e você poderá encontrar os resultados em:
+      https://medium.com/@weleyanibal/teste-de-desempenho-do-lista-pra-mim-fa3de28b4e10
