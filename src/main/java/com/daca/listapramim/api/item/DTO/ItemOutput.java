@@ -4,10 +4,11 @@ import com.daca.listapramim.api.precos.DTO.PrecoOutput;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
 import java.util.List;
 
 @ApiModel(value = "itemOutput")
-public class ItemOutput {
+public class ItemOutput implements Serializable {
 
     @ApiModelProperty(example = "1")
     private Long id;

@@ -4,6 +4,7 @@ package com.daca.listapramim.api.user.DTO;
 import com.daca.listapramim.api.precos.DTO.PrecoInput;
 import com.daca.listapramim.api.precos.DTO.PrecoOutput;
 import com.daca.listapramim.api.precos.MapaDePreco;
+import com.daca.listapramim.api.user.Privilege;
 import com.daca.listapramim.api.user.UserModel;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -11,7 +12,9 @@ import org.modelmapper.spi.MappingContext;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Type;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Component("userIO")
 public class UserIO {
@@ -32,6 +35,11 @@ public class UserIO {
             UserInput userInput = context.getSource();
             UserModel user = new UserModel();
 
+            Set<Privilege> arr = new HashSet<Privilege>();
+            for (String p: userInput.getPermissao()) {
+                arr.add(Privilege.fromKey(p));
+            }
+            user.setPrivileges(arr);
             user.setPassword(userInput.getPassword());
             user.setEmail(userInput.getEmail());
             user.setNome(userInput.getNome());

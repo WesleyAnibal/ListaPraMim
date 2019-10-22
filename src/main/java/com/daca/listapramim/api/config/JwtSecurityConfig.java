@@ -41,12 +41,4 @@ public class    JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
     }
-
-    @Override
-    protected  void configure(AuthenticationManagerBuilder auth) throws  Exception{
-        auth.inMemoryAuthentication()
-                .withUser("admin")
-                .password("password")
-                .roles("ADMIN");
-    }
 }

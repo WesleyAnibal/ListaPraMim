@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,6 +33,7 @@ public class PrecoController {
         this.precoService = precoService;
     }
 
+    @PreAuthorize("hasAuthority('" + "PR" + "')")
     @PostMapping({"/",""})
     @ApiOperation(value = "Create Preco")
     public ResponseEntity create(@Valid @RequestBody PrecoInput itemInput){
@@ -50,6 +52,7 @@ public class PrecoController {
         return this.precoIO.toList(this.precoService.getByItemId(itemId), type);
     }*/
 
+    @PreAuthorize("hasAuthority('" + "PR" + "')")
     @ApiOperation(value = "Get a Preco")
     @GetMapping({"/{id}/","/{id}"})
     public PrecoOutput show(@PathVariable("id") Long id){
@@ -57,6 +60,7 @@ public class PrecoController {
         return this.precoIO.mapTo(this.precoService.show(id));
     }
 
+    @PreAuthorize("hasAuthority('" + "PR" + "')")
     @ApiOperation(value = "Update Preco")
     @PutMapping({"/{id}/","/{id}"})
     public ResponseEntity<?> update(@Min(value = 1) @PathVariable("id") Long id,
@@ -68,6 +72,7 @@ public class PrecoController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PreAuthorize("hasAuthority('" + "PR" + "')")
     @ApiOperation(value = "Delete Preco")
     @DeleteMapping({"/{id}/","/{id}"})
     public ResponseEntity<?> delete(@Min(value = 1) @PathVariable("id") Long id){

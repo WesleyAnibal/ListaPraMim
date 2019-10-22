@@ -7,7 +7,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @ApiIgnore
 @Entity
@@ -33,6 +35,12 @@ public class UserModel implements Serializable, Model<Long> {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @ElementCollection(targetClass = Privilege.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "tb_privilege", joinColumns = @JoinColumn(name = "user_id"), foreignKey = @ForeignKey(name = "FK_USER_PRIVILEGE"))
+    @Column(name = "name", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Set<Privilege> privileges;
 
 
     public UserModel() {
@@ -76,6 +84,14 @@ public class UserModel implements Serializable, Model<Long> {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<Privilege> getPrivileges() {
+        return privileges;
+    }
+
+    public void setPrivileges(Set<Privilege> privileges) {
+        this.privileges = privileges;
     }
 
     @Override

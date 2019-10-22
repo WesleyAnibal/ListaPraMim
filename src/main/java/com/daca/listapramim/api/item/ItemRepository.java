@@ -1,6 +1,7 @@
 package com.daca.listapramim.api.item;
 
 import com.daca.listapramim.api.item.Categoria;
+import com.daca.listapramim.api.user.UserModel;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -18,4 +19,5 @@ public interface ItemRepository extends JpaRepository<Item, Long>{
 
     List<Item> findAllByNomeContainingIgnoreCase(String nome);
     List<Item> findAllByNomeAndAndCategoria(String nome, Categoria categoria);
+    List<Item> findAllByUserModel(UserModel user);
 }
